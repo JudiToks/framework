@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Map;
+import java.lang.reflect.Method;
 import java.util.Vector;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -50,13 +52,24 @@ public class FrontServlet extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         try
         {
+            
             if (mappingUrls.get(correctPath).getMethod().toString().equalsIgnoreCase(correctPath)) 
             {
                 Mapping mapping = mappingUrls.get(correctPath);
                 Class classMap = Class.forName(mapping.getClassName());
                 Object object = classMap.getConstructor().newInstance();
-                ModelView view = (ModelView)classMap.getDeclaredMethod(mapping.getMethod()).invoke(object);
-                request.getRequestDispatcher(view.getUrl()).forward(request, response);
+                // ModelView view = (ModelView)classMap.getDeclaredMethod(mapping.getMethod()).invoke(object);
+                // request.getRequestDispatcher(view.getUrl()).forward(request, response);
+                Method method = classMap.getDeclaredMethod(mapping.getMethod());
+                if (method.invoke(object) instanceof ModelView view) 
+                {
+                    HashMap<String, Object> data = view.getData();
+                    for (Map.Entry<String, Object> map : data.entrySet())
+                    {
+                        request.setAttribute(map.getKey(), map.getValue());
+                    }
+                    request.getRequestDispatcher(view.getUrl()).forward(request, response);
+                }
             }
         }
         catch(Exception e)
