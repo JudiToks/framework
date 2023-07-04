@@ -2,14 +2,31 @@ package etu1820.framework.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import etu1820.framework.Mapping;
+
 public class FrontServlet extends HttpServlet
 {
+
+    HashMap<String, Mapping> mappingUrls;
+
+    public void init() throws ServletException
+    {
+        try 
+        {
+            mappingUrls = new HashMap<>();
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     { 
         response.setContentType("text/html;charset=UTF-8");
