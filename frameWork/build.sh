@@ -14,4 +14,5 @@ cd bin
 cp -r util /opt/tomcat/webapps/framework/WEB-INF/classes/
 cd ../../
 
+# jerena hoe aiza ah zao
 pwd

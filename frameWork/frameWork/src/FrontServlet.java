@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import etu1820.framework.Mapping;
+import etu1820.framework.ModelView;
 import etu1820.framework.util.Code;
 
 public class FrontServlet extends HttpServlet
@@ -43,19 +44,25 @@ public class FrontServlet extends HttpServlet
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     { 
+        PrintWriter out = response.getWriter();
+        String urlPath = request.getServletPath();
+        String correctPath = urlPath.substring(1);
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FrontServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FrontServlet at " + request.getContextPath() + "</h1>");
-            // out.println("<p>" + mappingUrls.get("/getEmp").getClassName() + "</p>");
-            out.println("</body>");
-            out.println("</html>");
+        try
+        {
+            if (mappingUrls.get(correctPath).getMethod().toString().equalsIgnoreCase(correctPath)) 
+            {
+                Mapping mapping = mappingUrls.get(correctPath);
+                Class classMap = Class.forName(mapping.getClassName());
+                Object object = classMap.getConstructor().newInstance();
+                ModelView view = (ModelView)classMap.getDeclaredMethod(mapping.getMethod()).invoke(object);
+                request.getRequestDispatcher(view.getUrl()).forward(request, response);
+            }
+        }
+        catch(Exception e)
+        {
+            out.println("<p> Diso </p>");
+
         }
     }
 
