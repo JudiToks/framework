@@ -1,1 +1,7 @@
-javac -cp /home/judicael/lib/jakarta.servlet-api-6.0.0.jar -d ./bin ./src/*.java 
+javac -d ./bin ./src/*.java
+
+cd bin
+jar cvf ../FrameWork.jar etu1820
+
+cd ../
+cp FrameWork.jar /opt/tomcat/webapps/framework/WEB-INF/lib/
