@@ -1,0 +1,1 @@
+javac -cp /home/judicael/lib/jakarta.servlet-api-6.0.0.jar -d ./bin ./src/*.java 
