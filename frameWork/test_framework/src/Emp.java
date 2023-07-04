@@ -1,5 +1,6 @@
 package util;
 
+import etu1820.framework.ModelView;
 import etu1820.framework.annotation.*;
 
 public class Emp 
@@ -8,5 +9,11 @@ public class Emp
     public void getEmp()
     {
         
+    }
+
+    @Annotation(url = "Acceuil")
+    public ModelView Acceuil()
+    {
+        return new ModelView("Acceuil.jsp");
     }
 }
