@@ -1,6 +1,9 @@
 package etu1820.framework.util;
 
+import java.beans.PropertyEditorManager;
+import java.beans.PropertyEditorSupport;
 import java.io.File;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -110,5 +113,17 @@ public class Code
             }
         }
         return utilitaires;
+    }
+
+    public static <T> T cast(String value, Class<T> type)
+    {
+        if (type == Date.class) 
+        {
+            Date date = Date.valueOf(value);
+            return (T) date;
+        }
+        PropertyEditorSupport editor = (PropertyEditorSupport)PropertyEditorManager.findEditor(type);
+        editor.setAsText(value);
+        return (T) editor.getValue();
     }
 }
