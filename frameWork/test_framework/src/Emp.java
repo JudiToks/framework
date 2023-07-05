@@ -18,7 +18,7 @@ public class Emp
     public int getAge() {
         return age;
     }
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -31,10 +31,6 @@ public class Emp
     @Annotation(url = "Acceuil")
     public ModelView Acceuil()
     {
-        String nom = "Jean";
-        int age = 20;
-        setNom(nom);
-        setAge(age);
         ModelView view = new ModelView("Acceuil.jsp");
         view.addItem("employe", this);
         return view;
